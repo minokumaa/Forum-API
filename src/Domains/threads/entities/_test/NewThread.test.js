@@ -16,7 +16,7 @@ describe('NewThread entities', () => {
         const payload = {
             title: 1984,
             body: true,
-            owner: {},
+            user_id: {},
         };
 
         // Action & Assert
@@ -28,7 +28,7 @@ describe('NewThread entities', () => {
         const payload = {
             title: 'Lorem ipsum dolor sit amet',
             body: 'Lorem ipsum dolor sit amet',
-            owner: 'user-1234',
+            user_id: 'user-1234',
         };
 
         // Action
@@ -37,5 +37,6 @@ describe('NewThread entities', () => {
         // Assert
         expect(newThread.title).toEqual(payload.title);
         expect(newThread.body).toEqual(payload.body);
+        expect(newThread.user_id).toEqual(payload.user_id);
     });
 });

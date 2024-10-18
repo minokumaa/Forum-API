@@ -4,10 +4,10 @@ class NewThread{
 
         this.title = payload.title;
         this.body = payload.body;
-        this.owner = payload.owner;
+        this.user_id = payload.user_id;
     }
 
-    _verifyPayload({ title, body, owner }){
+    _verifyPayload({ title, body, user_id: owner }){
         if(!title || !body || !owner){
             throw new Error('NEW_THREAD.NOT_CONTAIN_NEEDED_PROPERTY');
         }
