@@ -1,12 +1,18 @@
+const AddThreadUseCase = require('../../../../Applications/use_case/AddThreadUseCase');
+const GetThreadUseCase = require('../../../../Applications/use_case/GetThreadUseCase');
+
 class ThreadsHandler {
-    constructor({ addThreadUseCase, getThreadUseCase }){
-        this._addThreadUseCase = addThreadUseCase;
-        this._getThreadUseCase = getThreadUseCase;
+    constructor(container){
+        this._container = container;
     }
 
-    async postThreadHandler(request, h){
-        const headerAuthorization = request.headers.authorization;
-        const addedThread = await this._addThreadUseCase.execute(request.payload, headerAuthorization);
+    async postThreadHandler({payload, auth}, h){
+        const addThreadUseCase = this._container.getInstace(AddThreadUseCase.name);
+        const { title, body } = payload;
+        const { id: credentialId } = auth.credentials;
+        const payloadSend = { title, body, owner: credentialId};
+
+        const addedThread = await addThreadUseCase.execute(payloadSend);
         const response = h.response({
             status: 'success',
             data: {
@@ -17,8 +23,10 @@ class ThreadsHandler {
         return response;
     }
 
-    async getThreadHandler(request, h){
-        const detailThread = await this._getThreadUseCase.execute(request.params);
+    async getThreadHandler({ params }, h){
+        const getThreadUseCase = this._container.getInstace(GetThreadUseCase.name);
+        const { threadId } = params;
+        const detailThread = await getThreadUseCase.execute({ threadId });
         const response = h.response({
             status: 'success',
             data: {
