@@ -27,17 +27,17 @@ describe('AddedThread entity', () => {
     it('should create AddedThread object correctly', () => {
         // Arrange
         const payload = {
-            id: 'thread-1234',
+            id: 'thread-123',
             title: 'Lorem ipsum dolor sit amet',
-            owner: 'John Doe',
+            owner: 'user-123',
         };
 
         // Action
         const addedThread = new AddedThread(payload);
 
         // Assert
+        expect(addedThread.id).toEqual(payload.id);
         expect(addedThread.title).toEqual(payload.title);
-        expect(addedThread.body).toEqual(payload.body);
         expect(addedThread.owner).toEqual(payload.owner);
     });
 });

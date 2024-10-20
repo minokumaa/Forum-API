@@ -1,17 +1,17 @@
-const DetailThread = require('../DetailThread');
+const GetThread = require('../GetThread');
 
-describe('DetailThread entity', () => {
+describe('GetThread entity', () => {
     it('should throw error when payload not contain needed property', () => {
         // Arrange
         const payload = {
-            id: 'thread-1234',
+            id: 'thread-123',
             title: 'Lorem ipsum dolor sit amet',
             body: 'Lorem ipsum dolor sit amet',
             date: '2021',
         };
 
         // Action & Assert
-        expect(() => new DetailThread(payload)).toThrowError('DETAIL_THREAD.NOT_CONTAIN_NEEDED_PROPERTY');
+        expect(() => new GetThread(payload)).toThrowError('GET_THREAD.NOT_CONTAIN_NEEDED_PROPERTY');
     });
 
     it('should throw error when payload has invalid data type', () => {
@@ -22,33 +22,30 @@ describe('DetailThread entity', () => {
             body: true,
             date: {},
             username: 454,
-            comments: 'comments',
         };
 
         // Action & Assert
-        expect(() => new DetailThread(payload)).toThrowError('DETAIL_THREAD.NOT_MEET_DATA_TYPE_SPECIFICATION');
+        expect(() => new GetThread(payload)).toThrowError('GET_THREAD.NOT_MEET_DATA_TYPE_SPECIFICATION');
     });
 
     it('should create NewThread object correctly', () => {
         // Arrange
         const payload = {
-            id: 'thread-1234',
+            id: 'thread-123',
             title: 'Lorem ipsum dolor sit amet',
             body: 'Lorem ipsum dolot sit amet',
             date: '2021',
-            username: 'John Die',
-            comments: [],
+            username: 'John Doe',
         };
 
         // Action
-        const detailThread = new DetailThread(payload);
+        const getThread = new GetThread(payload);
 
         // Assert
-        expect(detailThread.id).toEqual(payload.id);
-        expect(detailThread.title).toEqual(payload.title);
-        expect(detailThread.body).toEqual(payload.body);
-        expect(detailThread.date).toEqual(payload.date);
-        expect(detailThread.username).toEqual(payload.username);
-        expect(detailThread.comments).toEqual(payload.comments);
+        expect(getThread.id).toEqual(payload.id);
+        expect(getThread.title).toEqual(payload.title);
+        expect(getThread.body).toEqual(payload.body);
+        expect(getThread.date).toEqual(payload.date);
+        expect(getThread.username).toEqual(payload.username);
     });
 });
