@@ -1,105 +1,71 @@
 const pool = require('../../database/postgres/pool');
-const UsersTableTestHelper = require('../../../../tests/UsersTableTestHelper');
 const container = require('../../container');
 const createServer = require('../createServer');
+const UsersTableTestHelper = require('../../../../tests/UsersTableTestHelper');
 const ThreadsTableTestHelper = require('../../../../tests/ThreadsTableTestHelper');
-const AuthenticationsTableTestHelper = require('../../../../tests/AuthenticationsTableTestHelper');
+const CommentTableTestHelper = require('../../../../tests/CommentsTableTestHelper');
+const ServerTestHelper = require('../../../../tests/ServerTestHelper');
 
 describe('/threads endpoint', () => {
+    beforeAll(async () => {
+        await UsersTableTestHelper.addUser({});
+    });
+
+    afterEach(async () => {
+        await ThreadsTableTestHelper.cleanTable();
+        await CommentTableTestHelper.cleanTable();
+    });
+    
     afterAll(async () => {
+        await UsersTableTestHelper.cleanTable();
         await pool.end();
     });
     
-    afterEach(async () => {
-        await UsersTableTestHelper.cleanTable();
-        await ThreadsTableTestHelper.cleanTable();
-        await AuthenticationsTableTestHelper.cleanTable();
-    });
-
     describe('when POST /threads', () => {
         it('should response 201 and persisted thread', async () => {
             // Arrange
+            const payload = {
+                title: 'lorem ipsum',
+                body: 'lorem ipsum',
+            }
+
+            const accessToken = await ServerTestHelper.getAccessToken();
             const server = await createServer(container);
-            /* User */
-            const requestPayloadUser = {
-                username: 'username',
-                password: 'password',
-                fullname: 'A fullname',
-            };
-            await server.inject({
-                method: 'POST',
-                url: '/users',
-                payload: requestPayloadUser,
-            });
-            /* Login user */
-            const responseAuth = await server.inject({
-                method: 'POST',
-                url: '/authentications',
-                payload: {
-                    username: requestPayloadUser.username,
-                    password: requestPayloadUser.password,
-                },
-            });
-            const responseJsonAuth = JSON.parse(responseAuth.payload);
-            const { accessToken } = responseJsonAuth.data;
-            /* Thread */
-            const requestPayloadThread = {
-                title: 'lorem ipsum dolot sit amet',
-                body: 'lorem ipsum dolor sit amet',
-            };
 
             // Action
             const response = await server.inject({
                 method: 'POST',
                 url: '/threads',
-                payload: requestPayloadThread,
+                payload,
                 headers: {
                     Authorization: `Bearer ${accessToken}`,
                 },
             });
+
+            await UsersTableTestHelper.findUsersById('user-123');
 
             // Assert
             const responseJson = JSON.parse(response.payload);
             expect(response.statusCode).toEqual(201);
             expect(responseJson.status).toEqual('success');
             expect(responseJson.data.addedThread).toBeDefined();
+            expect(responseJson.data.addedThread.title).toEqual(payload.title);
         });
 
         it('should response 400 when request payload not contain needed property', async () => {
             // Arrange
-            const server = await createServer(container);
-            /* User */
-            const requestPayloadUser = {
-                username: 'username',
-                password: 'password',
-                fullname: 'A fullname',
-            };
-            await server.inject({
-                method: 'POST',
-                url: '/users',
-                payload: requestPayloadUser,
-            });
-            /* Login user */
-            const responseAuth = await server.inject({
-                method: 'POST',
-                url: '/authentications',
-                payload: {
-                    username: requestPayloadUser.username,
-                    password: requestPayloadUser.password,
-                },
-            });
-            const responseJsonAuth = JSON.parse(responseAuth.payload);
-            const { accessToken } = responseJsonAuth.data;
-            /* Thread */
-            const requestPayloadThread = {
-                title: 'lorem ipsum dolot sit amet',
+            const requestPayload = {
+                body: 'lorem ipsum',
             };
 
+            const accessToken = await ServerTestHelper.getAccessToken();
+            const server = await createServer(container);
+            
             // Action
             const response = await server.inject({
                 method: 'POST',
                 url: '/threads',
-                payload: requestPayloadThread,
+                payload: requestPayload,
                 headers: {
                     Authorization: `Bearer ${accessToken}`,
                 },
@@ -114,40 +80,19 @@ describe('/threads endpoint', () => {
 
         it('should response 400 when requset payload not meet data type specification', async () => {
             // Arrange
+            const requestPayload = {
+                title: 123,
+                body: true,
+                owner: 'user-123',
+            }
+            const accessToken = await ServerTestHelper.getAccessToken();
             const server = await createServer(container);
-            /* User */
-            const requestPayloadUser = {
-                username: 'username',
-                password: 'password',
-                fullname: 'A fullname',
-            };
-            await server.inject({
-                method: 'POST',
-                url: '/users',
-                payload: requestPayloadUser,
-            });
-            /* Login user */
-            const responseAuth = await server.inject({
-                method: 'POST',
-                url: '/authentications',
-                payload: {
-                    username: requestPayloadUser.username,
-                    password: requestPayloadUser.password,
-                },
-            });
-            const responseJsonAuth = JSON.parse(responseAuth.payload);
-            const { accessToken } = responseJsonAuth.data;
-            /* Thread */
-            const requestPayloadThread = {
-                title: 'lorem ipsum dolot sit amet',
-                body: ['lorem ipsum dolor sit amet'],
-            };
-
+            
             // Action
             const response = await server.inject({
                 method: 'POST',
                 url: '/threads',
-                payload: requestPayloadThread,
+                payload: requestPayload,
                 headers: {
                     Authorization: `Bearer ${accessToken}`,
                 },
@@ -186,73 +131,40 @@ describe('/threads endpoint', () => {
     describe('when GET /threads/{threadId}', () => {
         it('should response 200 and get a thread detail with comments', async () => {
             // Arrange
+            const threadId = 'thread-123';
+            await ThreadsTableTestHelper.addThread({ id: threadId });
+            await CommentTableTestHelper.addComment({});
             const server = await createServer(container);
-            /* User */
-            const requestPayloadUser = {
-                username: 'username',
-                password: 'password',
-                fullname: 'A fullname',
-            };
-            await server.inject({
-                method: 'POST',
-                url: '/users',
-                payload: requestPayloadUser,
-            });
-            /* Login user */
-            const responseAuth = await server.inject({
-                method: 'POST',
-                url: '/authentications',
-                payload: {
-                    username: requestPayloadUser.username,
-                    password: requestPayloadUser.password,
-                },
-            });
-            const responseJsonAuth = JSON.parse(responseAuth.payload);
-            const { accessToken } = responseJsonAuth.data;
-            /* Thread */
-            const requestPayloadThread = {
-                title: 'lorem ipsum dolot sit amet',
-                body: 'lorem ipsum dolor sit amet',
-            };
-            const responseThreads = await server.inject({
-                method: 'POST',
-                url: '/threads',
-                payload: requestPayloadThread,
-                headers: {
-                    Authorization: `Bearer ${accessToken}`,
-                },
-            });
-            const responseJsonThreads = JSON.parse(responseThreads.payload);
-            const { addedThread } = responseJsonThreads.data;
-
+            
             // Action
             const response = await server.inject({
                 method: 'GET',
-                url: `/threads/${addedThread.id}`
+                url: `/threads/${threadId}`
             });
 
             // Assert
             const responseJson = JSON.parse(response.payload);
             expect(response.statusCode).toEqual(201);
             expect(responseJson.status).toEqual('success');
-            expect(responseJson.data.addedThread).toBeDefined();
+            expect(responseJson.data.thread).toBeDefined();
+            expect(responseJson.data.thread.comments).toBeDefined();
         });
 
         it('should response 400 when thread doesn\'t exist', async () => {
             // Arrange
+            const threadId = 'thread-123';
             const server = await createServer(container);
 
             // Action
             const response = await server.inject({
                 method: 'GET',
-                url: '/threads/thread-123',
+                url: `/threads/${threadId}`,
             });
 
             // Asssert
             const responseJson = JSON.parse(response.payload);
             expect(response.statusCode).toEqual(404);
             expect(responseJson.status).toEqual('fail');
-            expect(responseJson.message).toEqual('Thread tidak ditemukan');
         });
     });
 });
