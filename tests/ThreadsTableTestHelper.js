@@ -1,17 +1,16 @@
-/* instanbul ignore file */
+/* istanbul ignore file */
 const pool = require('../src/Infrastructures/database/postgres/pool');
 
 const ThreadsTableTestHelper = {
     async addThread({
         id = 'thread-123',
-        title = 'lorem ipsum dolor sit amet',
-        body = 'lorem ipsum dolor sit amet',
+        title = 'lorem ipsum',
+        body = 'lorem ipsum',
         owner = 'user-123',
-        date = '2021',
     }) {
         const query = {
-            text: 'INSERT INTO threads VALUES($1, $2, $3, $4, $5)',
-            values: [id, title, body, owner,date],
+            text: 'INSERT INTO threads VALUES($1, $2, $3, $4)',
+            values: [id, title, body, owner],
         };
         await pool.query(query);
     },
@@ -22,7 +21,7 @@ const ThreadsTableTestHelper = {
             values: [id],
         };
         const result = await pool.query(query);
-        return result.rows[0];
+        return result.rows;
     },
 
     async cleanTable() {

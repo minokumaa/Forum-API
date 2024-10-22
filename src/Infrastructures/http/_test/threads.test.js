@@ -75,7 +75,7 @@ describe('/threads endpoint', () => {
             const responseJson = JSON.parse(response.payload);
             expect(response.statusCode).toEqual(400);
             expect(responseJson.status).toEqual('fail');
-            expect(responseJson.message).toEqual('tidak dapat membuat thread baru karena properti yang ditbutuhkan tidak ada');
+            expect(responseJson.message).toEqual('tidak dapat membuat thread baru karena properti yang dibutuhkan tidak ada');
         });
 
         it('should response 400 when requset payload not meet data type specification', async () => {
@@ -144,7 +144,7 @@ describe('/threads endpoint', () => {
 
             // Assert
             const responseJson = JSON.parse(response.payload);
-            expect(response.statusCode).toEqual(201);
+            expect(response.statusCode).toEqual(200);
             expect(responseJson.status).toEqual('success');
             expect(responseJson.data.thread).toBeDefined();
             expect(responseJson.data.thread.comments).toBeDefined();

@@ -6,7 +6,7 @@ const AddedReply = require('../../../Domains/replies/entities/AddedReply');
 const UsersTableTestHelper = require('../../../../tests/UsersTableTestHelper');
 const ThreadsTableTestHelper = require('../../../../tests/ThreadsTableTestHelper');
 const CommentTableTestHelper = require('../../../../tests/CommentsTableTestHelper');
-const ReplyTableTestHelper = require('../../../../tests/ReplyTableTestHelper');
+const ReplyTableTestHelper = require('../../../../tests/RepliesTableTestHelper');
 const ReplyRepositoryPostgres = require('../ReplyRepositoryPostgres');
 
 describe('ReplyRepositoryPostgres', () => {
@@ -133,10 +133,10 @@ describe('ReplyRepositoryPostgres', () => {
             // Arrange
             const threadId = 'thread-123';
             const expectedResult = {
-                id: 'comment-123',
+                id: 'reply-123',
                 content: 'lorem ipsum',
                 date: '20211110',
-                username: 'Winter',
+                username: 'dicoding',
                 comment: 'comment-123',
                 is_deleted: false,
             };

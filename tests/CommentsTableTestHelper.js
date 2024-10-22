@@ -24,11 +24,11 @@ const CommentsTableTestHelper = {
 
     const result = await pool.query(query);
 
-    return result.rows[0];
+    return result.rows;
   },
 
   async cleanTable() {
-    await pool.query('DELETE FROM replies WHERE 1=1');
+    await pool.query('DELETE FROM comments WHERE 1=1');
   },
 };
 

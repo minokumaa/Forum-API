@@ -6,7 +6,6 @@ const ThreadsTableTestHelper = require('../../../../tests/ThreadsTableTestHelper
 const CommentTableTestHelper = require('../../../../tests/CommentsTableTestHelper');
 const ServerTestHelper = require('../../../../tests/ServerTestHelper');
 const RepliesTableTestHelper = require('../../../../tests/RepliesTableTestHelper');
-const comments = require('../../../Interfaces/http/api/comments');
 
 describe('/threads/threadId/comments endpoint', () => {
     beforeAll(async () => {
@@ -81,7 +80,7 @@ describe('/threads/threadId/comments endpoint', () => {
             const responseJson = JSON.parse(response.payload);
             expect(response.statusCode).toEqual(400);
             expect(responseJson.status).toEqual('fail');
-            expect(responseJson.message).toEqual('tidak dapat membuat thread baru karena properti yang ditbutuhkan tidak ada');
+            expect(responseJson.message).toEqual('tidak dapat membuat balasan pada komentar karena properti yang dibutuhkan tidak ada');
         });
 
         it('should response 400 when requset payload not meet data type specification', async () => {
@@ -110,7 +109,7 @@ describe('/threads/threadId/comments endpoint', () => {
             const responseJson = JSON.parse(response.payload);
             expect(response.statusCode).toEqual(400);
             expect(responseJson.status).toEqual('fail');
-            expect(responseJson.message).toEqual('tidak dapat membuat thread baru karena tipe data tidak sesuai');
+            expect(responseJson.message).toEqual('tidak dapat membuat balasan pada komentar karena tipe data tidak sesuai');
         });
 
         it('should response 404 when adding a reply to a comment in an unavailable thread', async () => {
@@ -183,7 +182,6 @@ describe('/threads/threadId/comments endpoint', () => {
             const response = await server.inject({
                 method: 'DELETE',
                 url: `/threads/${threadId}/comments/${commentId}/replies/${replyId}`,
-                payload,
                 headers: {
                     Authorization: `Bearer ${accessToken}`,
                 }
@@ -211,7 +209,6 @@ describe('/threads/threadId/comments endpoint', () => {
             const response = await server.inject({
                 method: 'DELETE',
                 url: `/threads/${threadId}/comments/${commentId}/replies/${replyId}`,
-                payload,
                 headers: {
                     Authorization: `Bearer ${accessToken}`,
                 }
@@ -239,7 +236,6 @@ describe('/threads/threadId/comments endpoint', () => {
             const response = await server.inject({
                 method: 'DELETE',
                 url: `/threads/${threadId}/comments/${commentId}/replies/${replyId}`,
-                payload,
                 headers: {
                     Authorization: `Bearer ${accessToken}`,
                 }
@@ -266,7 +262,6 @@ describe('/threads/threadId/comments endpoint', () => {
             const response = await server.inject({
                 method: 'DELETE',
                 url: `/threads/${threadId}/comments/${commentId}/replies/${replyId}`,
-                payload,
                 headers: {
                     Authorization: `Bearer ${accessToken}`,
                 }

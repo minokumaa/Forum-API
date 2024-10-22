@@ -12,36 +12,36 @@ describe('DeleteCommentUseCase', () => {
         }
 
         /** creating dependency of use case */
-        const mockThreadRepository = new ThreadRepository()
-        const mockCommentRepository = new CommentRepository()
+        const mockThreadRepository = new ThreadRepository();
+        const mockCommentRepository = new CommentRepository();
 
         /** mocking needed function */
         mockThreadRepository.verifyAvailableThread = jest.fn()
-            .mockImplementation(() => Promise.resolve())
+            .mockImplementation(() => Promise.resolve());
         mockCommentRepository.verifyAvailableComment = jest.fn()
-            .mockImplementation(() => Promise.resolve())
+            .mockImplementation(() => Promise.resolve());
         mockCommentRepository.verifyCommentOwner = jest.fn()
-            .mockImplementation(() => Promise.resolve())
+            .mockImplementation(() => Promise.resolve());
         mockCommentRepository.deleteComment = jest.fn()
-            .mockImplementation(() => Promise.resolve())
+            .mockImplementation(() => Promise.resolve());
 
         /** creating use case instance */
         const deleteCommentUseCase = new DeleteCommentUseCase({
             threadRepository: mockThreadRepository,
             commentRepository: mockCommentRepository
-        })
+        });
 
         // Action
-        await deleteCommentUseCase.execute(useCasePayload)
+        await deleteCommentUseCase.execute(useCasePayload);
 
         // Assert
         expect(mockThreadRepository.verifyAvailableThread)
-            .toHaveBeenCalledWith(useCasePayload.thread)
+            .toHaveBeenCalledWith(useCasePayload.thread);
         expect(mockCommentRepository.verifyAvailableComment)
-            .toHaveBeenCalledWith(useCasePayload.commentId)
+            .toHaveBeenCalledWith(useCasePayload.commentId);
         expect(mockCommentRepository.verifyCommentOwner)
-            .toHaveBeenCalledWith(useCasePayload.commentId, useCasePayload.owner)
+            .toHaveBeenCalledWith(useCasePayload.commentId, useCasePayload.owner);
         expect(mockCommentRepository.deleteComment)
-            .toHaveBeenCalledWith(useCasePayload.commentId)
+            .toHaveBeenCalledWith(useCasePayload.commentId);
     })
 })

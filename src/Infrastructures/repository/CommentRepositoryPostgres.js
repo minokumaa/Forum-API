@@ -12,7 +12,7 @@ class CommentRepositoryPostgres extends CommentRepository{
 
     async addComment (comment) {
         const { content, owner, thread } = comment;
-        const id = `thread-${this._idGenerator()}`;
+        const id = `comment-${this._idGenerator()}`;
 
         const query = {
             text: 'INSERT INTO comments VALUES ($1, $2, $3, $4) RETURNING id, content, owner',
@@ -28,7 +28,7 @@ class CommentRepositoryPostgres extends CommentRepository{
             values: [commentId],
         }
         const result = await this._pool.query(query);
-        if (!result.rows.length) {
+        if (!result.rowCount) {
             throw new NotFoundError('Comment not found');
         }
     }
@@ -39,7 +39,7 @@ class CommentRepositoryPostgres extends CommentRepository{
             values: [commentId, owner],
         }
         const result = await this._pool.query(query);
-        if (!result.rows.length) {
+        if (!result.rowCount) {
             throw new AuthorizationError('This comment is not yours');
         }
     }
@@ -52,14 +52,14 @@ class CommentRepositoryPostgres extends CommentRepository{
         await this._pool.query(query);
     }
 
-    async getAllCommentsInThread (commentId, owner) {
+    async getAllCommentsInThread (commentId) {
         const query = {
             text: `SELECT comments.id, users.username, comments.date, comments.content, comments.is_deleted 
                 FROM comments
                 LEFT JOIN users ON users.id=comments.owner
                 WHERE comments.thread=$1
                 ORDER BY comments.date ASC`,
-            values: [commentId, owner],
+            values: [commentId],
         }
         const result = await this._pool.query(query);
         return result.rows;

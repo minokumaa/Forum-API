@@ -12,7 +12,7 @@ class ReplyRepositoryPostgres extends ReplyRepository{
 
     async addReply (reply) {
         const { content, owner, comment, thread } = reply;
-        const id = `thread-${this._idGenerator()}`;
+        const id = `reply-${this._idGenerator()}`;
 
         const query = {
             text: 'INSERT INTO replies VALUES ($1, $2, $3, $4, $5) RETURNING id, content, owner',
@@ -46,20 +46,20 @@ class ReplyRepositoryPostgres extends ReplyRepository{
 
     async deleteReply (replyId) {
         const query = {
-            text: 'UPDATE replies SET is_deleted=TRUE WHERE id=$1 RETURNING id, is_deleted',
+            text: 'UPDATE replies SET is_deleted=TRUE WHERE id=$1',
             values: [replyId],
         }
         await this._pool.query(query);
     }
 
-    async getAllReplies (commentId, owner) {
+    async getAllReplies (commentId) {
         const query = {
             text: `SELECT replies.id, replies.content, users.username, replies.comment, replies.date, replies.is_deleted 
                 FROM replies
                 LEFT JOIN users ON users.id=replies.owner
                 WHERE replies.thread=$1
                 ORDER BY replies.date ASC`,
-            values: [commentId, owner],
+            values: [commentId],
         }
         const result = await this._pool.query(query);
         return result.rows;

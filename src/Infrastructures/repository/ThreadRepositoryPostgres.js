@@ -1,7 +1,7 @@
-const ThreadRepository = require('../../../Domains/threads/ThreadRepository');
-const NotFoundError = require('../../../Commons/exceptions/NotFoundError');
-const AddedThread = require('../../../Domains/threads/entities/AddedThread');
-const GetThread = require('../../../Domains/threads/entities/GetThread');
+const ThreadRepository = require('../../Domains/threads/ThreadRepository');
+const NotFoundError = require('../../Commons/exceptions/NotFoundError');
+const AddedThread = require('../../Domains/threads/entities/AddedThread');
+const GetThread = require('../../Domains/threads/entities/GetThread');
 
 class ThreadRepositoryPostgres extends ThreadRepository {
     constructor(pool, idGenerator) {
@@ -39,7 +39,7 @@ class ThreadRepositoryPostgres extends ThreadRepository {
                 FROM threads 
                 LEFT JOIN users ON users.id=threads.owner
                 WHERE threads.id = $1`,
-            values: [id],
+            values: [threadId],
         };
         const result = await this._pool.query(query);
         return new GetThread({ ...result.rows[0] });

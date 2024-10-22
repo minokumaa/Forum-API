@@ -14,7 +14,7 @@ class GetThreadUseCase{
         const getFormatedReplies = (commentId) => {
             const filteredReplies = replies.filter((reply) => {
                 return reply.comment === commentId
-            })
+            });
             const formatedReplies = filteredReplies.map((reply) => {
                 if (reply.is_deleted === true) {
                     reply.content = '**balasan telah dihapus**'
@@ -26,12 +26,12 @@ class GetThreadUseCase{
                     username: reply.username
                 }
             })
-            return formatedReplies
+            return formatedReplies;
         }
 
         thread.comments = comments.map((comment) => {
             if (comment.is_deleted === true) {
-                comment.content = '**komentar telah dihapus**'
+                comment.content = '**komentar telah dihapus**';
             }
             return {
                 id: comment.id,
@@ -40,9 +40,9 @@ class GetThreadUseCase{
                 content: comment.content,
                 replies: getFormatedReplies(comment.id)
             }
-        })
+        });
 
-        return thread
+        return thread;
     }
 }
 

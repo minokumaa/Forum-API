@@ -3,7 +3,9 @@ const AddReply = require('../AddReply');
 describe('AddReply entities', () => {
     it('should throw error when payload not contain needed property', () => {
         // Arrange
-        const payload = {};
+        const payload = {
+            content: 'lorem ipsum',
+        };
 
         // Action & Assert
         expect(() => new AddReply(payload)).toThrowError('ADD_REPLY.NOT_CONTAIN_NEEDED_PROPERTY');
@@ -32,7 +34,7 @@ describe('AddReply entities', () => {
         }
 
         // Action
-        const addReply = new AddReply();
+        const addReply = new AddReply(payload);
 
         // Assert
         expect(addReply.content).toEqual(payload.content);

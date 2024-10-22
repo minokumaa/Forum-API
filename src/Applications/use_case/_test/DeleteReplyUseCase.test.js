@@ -12,45 +12,45 @@ describe('DeleteReplyUseCase', () => {
             comment: 'comment-123',
             thread: 'thread-123',
             owner: 'user-123'
-        }
+        };
 
         /** creating dependency of use case */
-        const mockThreadRepository = new ThreadRepository()
-        const mockCommentRepository = new CommentRepository()
-        const mockReplyRepository = new ReplyRepository()
+        const mockThreadRepository = new ThreadRepository();
+        const mockCommentRepository = new CommentRepository();
+        const mockReplyRepository = new ReplyRepository();
 
         /** mocking needed function */
         mockThreadRepository.verifyAvailableThread = jest.fn()
-            .mockImplementation(() => Promise.resolve())
+            .mockImplementation(() => Promise.resolve());
         mockCommentRepository.verifyAvailableComment = jest.fn()
-            .mockImplementation(() => Promise.resolve())
+            .mockImplementation(() => Promise.resolve());
         mockReplyRepository.verifyAvailableReply = jest.fn()
-            .mockImplementation(() => Promise.resolve())
+            .mockImplementation(() => Promise.resolve());
         mockReplyRepository.verifyReplyOwner = jest.fn()
-            .mockImplementation(() => Promise.resolve())
+            .mockImplementation(() => Promise.resolve());
         mockReplyRepository.deleteReply = jest.fn()
-            .mockImplementation(() => Promise.resolve())
+            .mockImplementation(() => Promise.resolve());
 
         /** creating use case instance */
         const deleteReplyUseCase = new DeleteReplyUseCase({
             threadRepository: mockThreadRepository,
             commentRepository: mockCommentRepository,
             replyRepository: mockReplyRepository
-        })
+        });
 
         // Action
-        await deleteReplyUseCase.execute(useCasePayload)
+        await deleteReplyUseCase.execute(useCasePayload);
 
         // Assert
         expect(mockThreadRepository.verifyAvailableThread)
-            .toHaveBeenCalledWith(useCasePayload.thread)
+            .toHaveBeenCalledWith(useCasePayload.thread);
         expect(mockCommentRepository.verifyAvailableComment)
-            .toHaveBeenCalledWith(useCasePayload.comment)
+            .toHaveBeenCalledWith(useCasePayload.comment);
         expect(mockReplyRepository.verifyAvailableReply)
-            .toHaveBeenCalledWith(useCasePayload.id)
+            .toHaveBeenCalledWith(useCasePayload.id);
         expect(mockReplyRepository.verifyReplyOwner)
-            .toHaveBeenCalledWith(useCasePayload.id, useCasePayload.owner)
+            .toHaveBeenCalledWith(useCasePayload.id, useCasePayload.owner);
         expect(mockReplyRepository.deleteReply)
-            .toHaveBeenCalledWith(useCasePayload.id)
-    })
-})
+            .toHaveBeenCalledWith(useCasePayload.id);
+    });
+});

@@ -38,7 +38,7 @@ describe('AddCommentUseCase', () => {
         });
 
         // Action
-        const addedComment = await addCommentUseCase.execiute(useCasePayload);
+        const addedComment = await addCommentUseCase.execute(useCasePayload);
 
         // Assert
         expect(addedComment).toStrictEqual(expectedAddedComment)

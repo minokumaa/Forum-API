@@ -4,10 +4,10 @@ class AddThread{
 
         this.title = payload.title;
         this.body = payload.body;
-        this.user_id = payload.user_id;
+        this.owner = payload.owner;
     }
 
-    _verifyPayload({ title, body, user_id: owner }){
+    _verifyPayload({ title, body, owner }){
         if(!title || !body || !owner){
             throw new Error('ADD_THREAD.NOT_CONTAIN_NEEDED_PROPERTY');
         }

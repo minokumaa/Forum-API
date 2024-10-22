@@ -1,9 +1,11 @@
 const AddComment = require('../AddComment');
 
-descibe('AddComment entities', () => {
+describe('AddComment entities', () => {
     it('should throw error when payload not contain needed property', () => {
         // Arrange
-        const payload = {};
+        const payload = {
+            content: 'lorem ipsum'
+        };
 
         // Action & Assert
         expect(() => new AddComment(payload)).toThrowError('ADD_COMMENT.NOT_CONTAIN_NEEDED_PROPERTY');

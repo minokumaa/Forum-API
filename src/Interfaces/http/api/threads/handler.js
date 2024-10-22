@@ -4,10 +4,13 @@ const GetThreadUseCase = require('../../../../Applications/use_case/GetThreadUse
 class ThreadsHandler {
     constructor(container){
         this._container = container;
+
+        this.postThreadHandler = this.postThreadHandler.bind(this);
+        this.getThreadByIdHandler =  this.getThreadByIdHandler.bind(this);
     }
 
     async postThreadHandler({payload, auth}, h){
-        const addThreadUseCase = this._container.getInstace(AddThreadUseCase.name);
+        const addThreadUseCase = this._container.getInstance(AddThreadUseCase.name);
         const { title, body } = payload;
         const { id: credentialId } = auth.credentials;
         const payloadSend = { title, body, owner: credentialId};
@@ -23,8 +26,8 @@ class ThreadsHandler {
         return response;
     }
 
-    async getThreaByIdHandler({ params }, h){
-        const getThreadUseCase = this._container.getInstace(GetThreadUseCase.name);
+    async getThreadByIdHandler({ params }, h){
+        const getThreadUseCase = this._container.getInstance(GetThreadUseCase.name);
         const { threadId } = params;
         const detailThread = await getThreadUseCase.execute({ threadId });
         const response = h.response({

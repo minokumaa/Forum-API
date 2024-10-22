@@ -90,7 +90,7 @@ describe('ThreadRepositoryPostgres', () => {
                 id: 'thread-123',
                 title: 'lorem ipsum',
                 body: 'lorem ipsum',
-                username: 'Winter',
+                username: 'dicoding',
             };
             const threadRepositoryPostgres = new ThreadRepositoryPostgres(pool, {});
             await ThreadsTableTestHelper.addThread({});

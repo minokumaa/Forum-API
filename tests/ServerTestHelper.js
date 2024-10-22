@@ -8,9 +8,9 @@ const ServerTestHelper = {
             username: 'dicoding',
             password: 'secret',
             fullname: 'Dicoding Indonesia'
-        }
-        return Jwt.token.generate(payloadUser, process.env.ACCESS_TOKEN_KEY)
+        };
+        return Jwt.token.generate(payloadUser, process.env.ACCESS_TOKEN_KEY);
     }
 }
 
-module.exports = ServerTestHelper
+module.exports = ServerTestHelper;
