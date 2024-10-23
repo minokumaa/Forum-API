@@ -1,43 +1,43 @@
 /* istanbul ignore file */
 
-const { createContainer } = require('instances-container');
+const { createContainer } = require('instances-container')
 
 // external agency
-const { nanoid } = require('nanoid');
-const bcrypt = require('bcrypt');
-const Jwt = require('@hapi/jwt');
-const pool = require('./database/postgres/pool');
+const { nanoid } = require('nanoid')
+const bcrypt = require('bcrypt')
+const Jwt = require('@hapi/jwt')
+const pool = require('./database/postgres/pool')
 
 // service (repository, helper, manager, etc)
-const UserRepository = require('../Domains/users/UserRepository');
-const PasswordHash = require('../Applications/security/PasswordHash');
-const UserRepositoryPostgres = require('./repository/UserRepositoryPostgres');
-const BcryptPasswordHash = require('./security/BcryptPasswordHash');
-const ThreadRepository = require('../Domains/threads/ThreadRepository');
-const ThreadRepositoryPostgres = require('../Infrastructures/repository/ThreadRepositoryPostgres');
-const CommentRepository = require('../Domains/comments/CommentRepository');
-const CommentRepositoryPostgres = require('../Infrastructures/repository/CommentRepositoryPostgres');
-const ReplyRepository = require('../Domains/replies/ReplyRepository');
-const ReplyRepositoryPostgres = require('../Infrastructures/repository/ReplyRepositoryPostgres');
+const UserRepository = require('../Domains/users/UserRepository')
+const PasswordHash = require('../Applications/security/PasswordHash')
+const UserRepositoryPostgres = require('./repository/UserRepositoryPostgres')
+const BcryptPasswordHash = require('./security/BcryptPasswordHash')
+const ThreadRepository = require('../Domains/threads/ThreadRepository')
+const ThreadRepositoryPostgres = require('../Infrastructures/repository/ThreadRepositoryPostgres')
+const CommentRepository = require('../Domains/comments/CommentRepository')
+const CommentRepositoryPostgres = require('../Infrastructures/repository/CommentRepositoryPostgres')
+const ReplyRepository = require('../Domains/replies/ReplyRepository')
+const ReplyRepositoryPostgres = require('../Infrastructures/repository/ReplyRepositoryPostgres')
 
 // use case
-const AddUserUseCase = require('../Applications/use_case/AddUserUseCase');
-const AuthenticationTokenManager = require('../Applications/security/AuthenticationTokenManager');
-const JwtTokenManager = require('./security/JwtTokenManager');
-const LoginUserUseCase = require('../Applications/use_case/LoginUserUseCase');
-const AuthenticationRepository = require('../Domains/authentications/AuthenticationRepository');
-const AuthenticationRepositoryPostgres = require('./repository/AuthenticationRepositoryPostgres');
-const LogoutUserUseCase = require('../Applications/use_case/LogoutUserUseCase');
-const RefreshAuthenticationUseCase = require('../Applications/use_case/RefreshAuthenticationUseCase');
-const AddThreadUseCase = require('../Applications/use_case/AddThreadUseCase');
-const AddCommentUseCase = require('../Applications/use_case/AddCommentUseCase');
-const AddReplyUseCase = require('../Applications/use_case/AddReplyUseCase');
-const DeleteCommentUseCase = require('../Applications/use_case/DeleteCommentUseCase');
-const DeleteReplyUseCase = require('../Applications/use_case/DeleteReplyUseCase');
-const GetThreadUseCase = require('../Applications/use_case/GetThreadUseCase');
+const AddUserUseCase = require('../Applications/use_case/AddUserUseCase')
+const AuthenticationTokenManager = require('../Applications/security/AuthenticationTokenManager')
+const JwtTokenManager = require('./security/JwtTokenManager')
+const LoginUserUseCase = require('../Applications/use_case/LoginUserUseCase')
+const AuthenticationRepository = require('../Domains/authentications/AuthenticationRepository')
+const AuthenticationRepositoryPostgres = require('./repository/AuthenticationRepositoryPostgres')
+const LogoutUserUseCase = require('../Applications/use_case/LogoutUserUseCase')
+const RefreshAuthenticationUseCase = require('../Applications/use_case/RefreshAuthenticationUseCase')
+const AddThreadUseCase = require('../Applications/use_case/AddThreadUseCase')
+const AddCommentUseCase = require('../Applications/use_case/AddCommentUseCase')
+const AddReplyUseCase = require('../Applications/use_case/AddReplyUseCase')
+const DeleteCommentUseCase = require('../Applications/use_case/DeleteCommentUseCase')
+const DeleteReplyUseCase = require('../Applications/use_case/DeleteReplyUseCase')
+const GetThreadUseCase = require('../Applications/use_case/GetThreadUseCase')
 
 // creating container
-const container = createContainer();
+const container = createContainer()
 
 // registering services and repository
 container.register([
@@ -47,13 +47,13 @@ container.register([
     parameter: {
       dependencies: [
         {
-          concrete: pool,
+          concrete: pool
         },
         {
-          concrete: nanoid,
-        },
-      ],
-    },
+          concrete: nanoid
+        }
+      ]
+    }
   },
   {
     key: AuthenticationRepository.name,
@@ -61,10 +61,10 @@ container.register([
     parameter: {
       dependencies: [
         {
-          concrete: pool,
-        },
-      ],
-    },
+          concrete: pool
+        }
+      ]
+    }
   },
   {
     key: PasswordHash.name,
@@ -72,10 +72,10 @@ container.register([
     parameter: {
       dependencies: [
         {
-          concrete: bcrypt,
-        },
-      ],
-    },
+          concrete: bcrypt
+        }
+      ]
+    }
   },
   {
     key: AuthenticationTokenManager.name,
@@ -83,10 +83,10 @@ container.register([
     parameter: {
       dependencies: [
         {
-          concrete: Jwt.token,
-        },
-      ],
-    },
+          concrete: Jwt.token
+        }
+      ]
+    }
   },
   {
     key: ThreadRepository.name,
@@ -94,13 +94,13 @@ container.register([
     parameter: {
       dependencies: [
         {
-          concrete: pool,
+          concrete: pool
         },
         {
-          concrete: nanoid,
-        },
-      ],
-    },
+          concrete: nanoid
+        }
+      ]
+    }
   },
   {
     key: CommentRepository.name,
@@ -108,13 +108,13 @@ container.register([
     parameter: {
       dependencies: [
         {
-          concrete: pool,
+          concrete: pool
         },
         {
-          concrete: nanoid,
-        },
-      ],
-    },
+          concrete: nanoid
+        }
+      ]
+    }
   },
   {
     key: ReplyRepository.name,
@@ -122,15 +122,15 @@ container.register([
     parameter: {
       dependencies: [
         {
-          concrete: pool,
+          concrete: pool
         },
         {
-          concrete: nanoid,
-        },
-      ],
-    },
-  },
-]);
+          concrete: nanoid
+        }
+      ]
+    }
+  }
+])
 
 // registering use cases
 container.register([
@@ -142,14 +142,14 @@ container.register([
       dependencies: [
         {
           name: 'userRepository',
-          internal: UserRepository.name,
+          internal: UserRepository.name
         },
         {
           name: 'passwordHash',
-          internal: PasswordHash.name,
-        },
-      ],
-    },
+          internal: PasswordHash.name
+        }
+      ]
+    }
   },
   {
     key: LoginUserUseCase.name,
@@ -159,22 +159,22 @@ container.register([
       dependencies: [
         {
           name: 'userRepository',
-          internal: UserRepository.name,
+          internal: UserRepository.name
         },
         {
           name: 'authenticationRepository',
-          internal: AuthenticationRepository.name,
+          internal: AuthenticationRepository.name
         },
         {
           name: 'authenticationTokenManager',
-          internal: AuthenticationTokenManager.name,
+          internal: AuthenticationTokenManager.name
         },
         {
           name: 'passwordHash',
-          internal: PasswordHash.name,
-        },
-      ],
-    },
+          internal: PasswordHash.name
+        }
+      ]
+    }
   },
   {
     key: LogoutUserUseCase.name,
@@ -184,10 +184,10 @@ container.register([
       dependencies: [
         {
           name: 'authenticationRepository',
-          internal: AuthenticationRepository.name,
-        },
-      ],
-    },
+          internal: AuthenticationRepository.name
+        }
+      ]
+    }
   },
   {
     key: RefreshAuthenticationUseCase.name,
@@ -197,14 +197,14 @@ container.register([
       dependencies: [
         {
           name: 'authenticationRepository',
-          internal: AuthenticationRepository.name,
+          internal: AuthenticationRepository.name
         },
         {
           name: 'authenticationTokenManager',
-          internal: AuthenticationTokenManager.name,
-        },
-      ],
-    },
+          internal: AuthenticationTokenManager.name
+        }
+      ]
+    }
   },
   {
     key: AddThreadUseCase.name,
@@ -214,10 +214,10 @@ container.register([
       dependencies: [
         {
           name: 'threadRepository',
-          internal: ThreadRepository.name,
-        },
-      ],
-    },
+          internal: ThreadRepository.name
+        }
+      ]
+    }
   },
   {
     key: AddCommentUseCase.name,
@@ -227,14 +227,14 @@ container.register([
       dependencies: [
         {
           name: 'commentRepository',
-          internal: CommentRepository.name,
+          internal: CommentRepository.name
         },
         {
           name: 'threadRepository',
-          internal: ThreadRepository.name,
-        },
-      ],
-    },
+          internal: ThreadRepository.name
+        }
+      ]
+    }
   },
   {
     key: AddReplyUseCase.name,
@@ -244,18 +244,18 @@ container.register([
       dependencies: [
         {
           name: 'replyRepository',
-          internal: ReplyRepository.name,
+          internal: ReplyRepository.name
         },
         {
           name: 'commentRepository',
-          internal: CommentRepository.name,
+          internal: CommentRepository.name
         },
         {
           name: 'threadRepository',
-          internal: ThreadRepository.name,
-        },
-      ],
-    },
+          internal: ThreadRepository.name
+        }
+      ]
+    }
   },
   {
     key: DeleteCommentUseCase.name,
@@ -265,14 +265,14 @@ container.register([
       dependencies: [
         {
           name: 'commentRepository',
-          internal: CommentRepository.name,
+          internal: CommentRepository.name
         },
         {
           name: 'threadRepository',
-          internal: ThreadRepository.name,
-        },
-      ],
-    },
+          internal: ThreadRepository.name
+        }
+      ]
+    }
   },
   {
     key: DeleteReplyUseCase.name,
@@ -282,18 +282,18 @@ container.register([
       dependencies: [
         {
           name: 'replyRepository',
-          internal: ReplyRepository.name,
+          internal: ReplyRepository.name
         },
         {
           name: 'commentRepository',
-          internal: CommentRepository.name,
+          internal: CommentRepository.name
         },
         {
           name: 'threadRepository',
-          internal: ThreadRepository.name,
-        },
-      ],
-    },
+          internal: ThreadRepository.name
+        }
+      ]
+    }
   },
   {
     key: GetThreadUseCase.name,
@@ -303,19 +303,19 @@ container.register([
       dependencies: [
         {
           name: 'replyRepository',
-          internal: ReplyRepository.name,
+          internal: ReplyRepository.name
         },
         {
           name: 'commentRepository',
-          internal: CommentRepository.name,
+          internal: CommentRepository.name
         },
         {
           name: 'threadRepository',
-          internal: ThreadRepository.name,
-        },
-      ],
-    },
-  },
-]);
+          internal: ThreadRepository.name
+        }
+      ]
+    }
+  }
+])
 
-module.exports = container;
+module.exports = container
