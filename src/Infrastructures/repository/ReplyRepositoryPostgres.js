@@ -58,7 +58,7 @@ class ReplyRepositoryPostgres extends ReplyRepository{
                 FROM replies
                 LEFT JOIN users ON users.id=replies.owner
                 WHERE replies.thread=$1
-                ORDER BY replies.date ASC`,
+                ORDER BY replies.is_deleted DESC, replies.date ASC`,
             values: [commentId],
         }
         const result = await this._pool.query(query);
