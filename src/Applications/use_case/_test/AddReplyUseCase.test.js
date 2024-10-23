@@ -16,6 +16,12 @@ describe('AddReplyUseCase', () => {
       thread: 'thread-123'
     }
 
+    const mockAddedReply = new AddedReply({
+      id: 'reply-123',
+      content: useCasePayload.content,
+      owner: useCasePayload.owner
+    })
+
     const expectedAddedReply = new AddedReply({
       id: 'reply-123',
       content: useCasePayload.content,
@@ -34,7 +40,7 @@ describe('AddReplyUseCase', () => {
       .mockImplementation(() => Promise.resolve())
     mockReplyRepository.addReply = jest.fn()
       .mockImplementation(() => Promise.resolve(
-        expectedAddedReply
+        mockAddedReply
       ))
 
     /** creating use case instance */

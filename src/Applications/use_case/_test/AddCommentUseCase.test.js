@@ -14,6 +14,12 @@ describe('AddCommentUseCase', () => {
       thread: 'thread-123'
     }
 
+    const mockAddedComment = new AddedComment({
+      id: 'comment-123',
+      content: useCasePayload.content,
+      owner: useCasePayload.owner
+    })
+
     const expectedAddedComment = new AddedComment({
       id: 'comment-123',
       content: useCasePayload.content,
@@ -29,7 +35,7 @@ describe('AddCommentUseCase', () => {
       .mockImplementation(() => Promise.resolve())
     mockCommentRepository.addComment = jest.fn()
       .mockImplementation(() => Promise.resolve(
-        expectedAddedComment
+        mockAddedComment
       ))
 
     /** creating use case instance */

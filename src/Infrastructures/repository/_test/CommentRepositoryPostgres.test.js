@@ -134,7 +134,8 @@ describe('CommentRepositoryPostgres', () => {
       const expectedResult = {
         id: 'comment-123',
         username: 'dicoding',
-        content: 'lorem ipsum'
+        content: 'lorem ipsum',
+        is_deleted: false
       }
 
       await CommentTableTestHelper.addComment({})
@@ -148,6 +149,7 @@ describe('CommentRepositoryPostgres', () => {
       expect(result[0].username).toEqual(expectedResult.username)
       expect(result[0].content).toEqual(expectedResult.content)
       expect(result[0]).toHaveProperty('date')
+      expect(result[0]).toEqual(expectedResult.is_deleted)
     })
   })
 })

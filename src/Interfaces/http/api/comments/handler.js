@@ -17,11 +17,7 @@ class CommentsHandler {
     const response = h.response({
       status: 'success',
       data: {
-        addedComment: {
-          id: addedComment.id,
-          content: addedComment.content,
-          owner: addedComment.owner
-        }
+        addedComment
       }
     })
     response.code(201)
