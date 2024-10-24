@@ -149,7 +149,7 @@ describe('CommentRepositoryPostgres', () => {
       expect(result[0].username).toEqual(expectedResult.username)
       expect(result[0].content).toEqual(expectedResult.content)
       expect(result[0]).toHaveProperty('date')
-      expect(result[0]).toEqual(expectedResult.is_deleted)
+      expect(result[0].is_deleted).toEqual(expectedResult.is_deleted)
     })
   })
 })
