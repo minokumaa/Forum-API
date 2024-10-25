@@ -19,7 +19,7 @@ class ThreadRepositoryPostgres extends ThreadRepository {
       values: [id, title, body, owner]
     }
     const result = await this._pool.query(query)
-    return new AddedThread({ ...result.rows[0] })
+    return new AddedThread(result.rows[0])
   }
 
   async verifyAvailableThread (threadId) {
@@ -28,7 +28,7 @@ class ThreadRepositoryPostgres extends ThreadRepository {
       values: [threadId]
     }
     const result = await this._pool.query(query)
-    if (!result.rows.length) {
+    if (!result.rowCount) {
       throw new NotFoundError('Thread not found')
     }
   }

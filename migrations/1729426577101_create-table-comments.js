@@ -12,16 +12,16 @@ exports.up = pgm => {
     owner: {
       type: 'VARCHAR(50)',
       notNull: true,
-      reference: 'users',
-      referenceConstraintName: 'fk_comments_users',
+      references: 'users',
+      referencesConstraintName: 'fk_comments_users',
       onDelete: 'cascade',
       onUpdate: 'cascade'
     },
     thread: {
       type: 'VARCHAR(50)',
       notNull: true,
-      reference: 'threads',
-      referenceConstraintName: 'fk_comments_threads',
+      references: 'threads',
+      referencesConstraintName: 'fk_comments_threads',
       onDelete: 'cascade',
       onUpdate: 'cascade'
     },
