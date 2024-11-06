@@ -34,8 +34,7 @@ describe('ReplyRepositoryPostgres', () => {
       const addReply = new AddReply({
         content: 'lorem ipsum',
         owner: 'user-123',
-        comment: 'comment-123',
-        thread: 'thread-123'
+        comment: 'comment-123'
       })
 
       const fakeIdGenerator = () => '123'
@@ -54,8 +53,7 @@ describe('ReplyRepositoryPostgres', () => {
       const addReply = new AddReply({
         content: 'lorem ipsum',
         owner: 'user-123',
-        comment: 'comment-123',
-        thread: 'thread-123'
+        comment: 'comment-123'
       })
 
       const fakeIdGenerator = () => '123'
@@ -132,7 +130,7 @@ describe('ReplyRepositoryPostgres', () => {
   describe('getAllReplies function', () => {
     it('should return all replies correctly', async () => {
       // Arrange
-      const threadId = 'thread-123'
+      const commentId = 'comment-123'
       const expectedResult = {
         id: 'reply-123',
         content: 'lorem ipsum',
@@ -145,7 +143,7 @@ describe('ReplyRepositoryPostgres', () => {
       await ReplyTableTestHelper.addReply({})
 
       // Action
-      const result = await replyRepositoryPostgres.getAllReplies(threadId)
+      const result = await replyRepositoryPostgres.getAllReplies(commentId)
 
       // Assert
       expect(result[0].id).toEqual(expectedResult.id)

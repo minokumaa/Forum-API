@@ -10,8 +10,8 @@ const RepliesTableTestHelper = {
     thread = 'thread-123'
   }) {
     const query = {
-      text: 'INSERT INTO replies VALUES($1, $2, $3, $4, $5)',
-      values: [id, content, owner, comment, thread]
+      text: 'INSERT INTO replies VALUES($1, $2, $3, $4)',
+      values: [id, content, owner, comment]
     }
 
     await pool.query(query)
