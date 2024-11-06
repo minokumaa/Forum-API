@@ -8,12 +8,12 @@ class AddReply {
     this.thread = payload.thread
   }
 
-  _verifyPayload ({ content, owner, comment, thread }) {
-    if (!content || !owner || !comment || !thread) {
+  _verifyPayload ({ content, owner, comment }) {
+    if (!content || !owner || !comment) {
       throw new Error('ADD_REPLY.NOT_CONTAIN_NEEDED_PROPERTY')
     }
 
-    if (typeof content !== 'string' || typeof owner !== 'string' || typeof comment !== 'string' || typeof thread !== 'string') {
+    if (typeof content !== 'string' || typeof owner !== 'string' || typeof comment !== 'string') {
       throw new Error('ADD_REPLY.NOT_MEET_DATA_TYPE_SPECIFICATION')
     }
   }

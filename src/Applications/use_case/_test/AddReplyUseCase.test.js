@@ -12,8 +12,7 @@ describe('AddReplyUseCase', () => {
     const useCasePayload = {
       content: 'lorem ipsum',
       owner: 'user-123',
-      comment: 'comment-123',
-      thread: 'thread-123'
+      comment: 'comment-123'
     }
 
     const mockAddedReply = new AddedReply({
@@ -60,8 +59,7 @@ describe('AddReplyUseCase', () => {
     expect(mockReplyRepository.addReply).toBeCalledWith(new AddReply({
       content: useCasePayload.content,
       owner: useCasePayload.owner,
-      comment: useCasePayload.comment,
-      thread: useCasePayload.thread
+      comment: useCasePayload.comment
     }))
   })
 })

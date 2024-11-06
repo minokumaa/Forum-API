@@ -25,14 +25,6 @@ exports.up = pgm => {
       onDelete: 'cascade',
       onUpdate: 'cascade'
     },
-    thread: {
-      type: 'VARCHAR(50)',
-      notNull: true,
-      reference: 'threads',
-      referenceConstraintName: 'fk_replies_threads',
-      onDelete: 'cascade',
-      onUpdate: 'cascade'
-    },
     date: {
       type: 'TIMESTAMP',
       default: 'NOW()'

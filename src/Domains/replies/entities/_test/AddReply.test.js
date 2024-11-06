@@ -17,8 +17,7 @@ describe('AddReply entities', () => {
     const payload = {
       content: true,
       owner: 123,
-      comment: 'comment-123',
-      thread: []
+      comment: 'comment-123'
     }
 
     // Action & Assert
@@ -30,8 +29,7 @@ describe('AddReply entities', () => {
     const payload = {
       content: 'lorem ipsum',
       owner: 'user-123',
-      comment: 'comment-123',
-      thread: 'thread-123'
+      comment: 'comment-123'
     }
 
     // Action
@@ -41,6 +39,5 @@ describe('AddReply entities', () => {
     expect(addReply.content).toEqual(payload.content)
     expect(addReply.owner).toEqual(payload.owner)
     expect(addReply.comment).toEqual(payload.comment)
-    expect(addReply.thread).toEqual(payload.thread)
   })
 })
